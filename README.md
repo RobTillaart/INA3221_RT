@@ -254,9 +254,12 @@ See datasheet
 
 Mode = 4 is not used, is also a **shutdown()** unknown if there is a difference with mode == 0.
 The underlying bit pattern (not used).
-- continuous (0x04) / one shot (0x00) bit.
-- bus bit on (0x02) / off (0x00)
-- shunt bit on (0x01) / off (0x00)
+
+|  bit  |  value  |  description  |
+|:-----:|:-------:|:--------------|
+|   0   |   0x01  |  shunt bit on (0x01) / off (0x00)
+|   1   |   0x02  |  bus bit on (0x02) / off (0x00)
+|   2   |   0x04  |  continuous (0x04) / one shot (0x00) bit.
 
 - **int setMode(uint8_t mode = 7)** mode = 0..7. Default = 7 ==> ShuntBusContinuous mode.
 - **int getMode()** returns the mode (0..7).
