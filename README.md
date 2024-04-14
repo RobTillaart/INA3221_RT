@@ -89,7 +89,7 @@ and high-speed mode (1 kHz to 2.94 MHz).
 All data bytes are transmitted most significant byte first._
 
 
-(timing in us, Arduino UN), indicative by example sketch)
+(timing in us, Arduino UNO), indicative by example sketch)
 Four most important calls.
 
 |  Clock   |  bus V  |  shunt V  |   mA  |   mW   |
@@ -125,6 +125,8 @@ Note: one needs to set **Wire.begin()** before calling **begin()**.
 Note the power and the current are not meaningful without calibrating the sensor.
 Also the value is not meaningful if there is no shunt connected.
 
+The parameter **channel** should always be 0..2
+
 - **float getBusVoltage(uint8_t channel)** idem. in volts. Max 26 Volt.
 - **float getShuntVoltage(uint8_t channel)** idem, in volts. 
 - **float getCurrent(uint8_t channel)** is the current through the shunt in Ampere.
@@ -149,30 +151,43 @@ Wrapper functions for the micro scale.
 
 #### Shunt Resistor
 
-- **int setShuntR(uint8_t channel, float ohm)** sets value in Ohm
-- **float getShuntR(uint8_t channel)** returns value in Ohm
+The shunt resistor is typical in the order of 0.100 Ohm.
+
+- **int setShuntR(uint8_t channel, float ohm)** sets value in Ohm.
+- **float getShuntR(uint8_t channel)** returns value in Ohm.
+
 
 #### Shunt Alerts, warning and critical
 
 (not tested)
 Read datasheet!
 
-- **int setCriticalAlert(uint8_t channel, uint16_t microVolt)** 
+The user is responsible to be sure that the critical value >= warning value
+if he decides to use both.
+If only one of the two is used, critical might be less than warning.
+
+The parameter **channel** should always be 0..2
+
+The parameter **microVolt** should not exceed 163800 µV, will return error -2.  
+NOTE: LSB = 40 uV so microVolt should be >= 40uV
+
+- **int setCriticalAlert(uint8_t channel, uint32_t microVolt)** 
 sets the critical alert level in microvolts.
-- **uint16_t getCriticalAlert(uint8_t channel)** returns microVolt
-- **int setWarningAlert(uint8_t channel, uint16_t microVolt)**
+- **uint32_t getCriticalAlert(uint8_t channel)** returns microVolt
+- **int setWarningAlert(uint8_t channel, uint32_t microVolt)**
 sets the warning alert level in microvolts.
-- **uint16_t getWarningAlert(uint8_t channel)** returns microVolt
+- **uint32_t getWarningAlert(uint8_t channel)** returns microVolt
 
-Wrappers using milliAmpere (assuming Shunt is set correctly!).
+Wrappers using milliAmpere (assuming Shunt is set correctly!).  
 These are often more intuitive from user perspective.
+NOTE: LSB = 40 uV so milliAmpere should be >= 0.4 mA (assume Shunt = 0.1 Ohm)
 
-- **int setCriticalCurrect(uint8_t channel, uint16_t milliAmpere)** 
+- **int setCriticalCurrect(uint8_t channel, float milliAmpere)** 
 sets the critical alert level in milliAmpere.
-- **uint16_t getCriticalCurrent(uint8_t channel)** returns milliAmpere
-- **int setWarningCurrent(uint8_t channel, uint16_t milliAmpere)**
+- **float getCriticalCurrent(uint8_t channel)** returns milliAmpere
+- **int setWarningCurrent(uint8_t channel, float milliAmpere)**
 sets the warning alert level in milliAmpere.
-- **uint16_t getWarningCurrent(uint8_t channel)** returns milliAmpere
+- **float getWarningCurrent(uint8_t channel)** returns milliAmpere
 
 
 #### Shunt voltage sum

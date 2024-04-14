@@ -1,7 +1,7 @@
 #pragma once
 //    FILE: INA3221.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.2.0
 //    DATE: 2024-02-05
 // PURPOSE: Arduino library for the I2C INA3221 3 channel voltage and current sensor.
 //     URL: https://github.com/RobTillaart/INA3221_RT
@@ -49,16 +49,18 @@ public:
   float    getShuntR(uint8_t channel);
 
   //  SHUNT ALERT WARNINGS & CRITICAL
-  int      setCriticalAlert(uint8_t channel, uint16_t microVolt);
-  uint16_t getCriticalAlert(uint8_t channel);  //  returns microVolt
-  int      setWarningAlert(uint8_t channel, uint16_t microVolt);
-  uint16_t getWarningAlert(uint8_t channel);   //  returns microVolt
+  //  NOTE: LSB = 40 uV so microVolt should be >= 40uV
+  int      setCriticalAlert(uint8_t channel, uint32_t microVolt);
+  uint32_t getCriticalAlert(uint8_t channel);  //  returns microVolt
+  int      setWarningAlert(uint8_t channel, uint32_t microVolt);
+  uint32_t getWarningAlert(uint8_t channel);   //  returns microVolt
 
   //  Wrappers using milliAmpere (Shunt must be set correctly!).
-  int      setCriticalCurrect(uint8_t channel, uint16_t milliAmpere);
-  uint16_t getCriticalCurrent(uint8_t channel);
-  int      setWarningCurrent(uint8_t channel, uint16_t milliAmpere);
-  uint16_t getWarningCurrent(uint8_t channel);
+  //  NOTE: LSB = 40 uV so milliAmpere should be >= 0.4 mA (assume R = 0.1)
+  int      setCriticalCurrect(uint8_t channel, float milliAmpere);
+  float    getCriticalCurrent(uint8_t channel);
+  int      setWarningCurrent(uint8_t channel, float milliAmpere);
+  float    getWarningCurrent(uint8_t channel);
 
   //  SHUNT VOLTAGE SUM
   int16_t  getShuntVoltageSum();       //  returns microVolt

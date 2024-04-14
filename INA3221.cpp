@@ -1,6 +1,6 @@
 //    FILE: INA3221.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.1.0
+// VERSION: 0.2.0
 //    DATE: 2024-02-05
 // PURPOSE: Arduino library for the I2C INA3221 3 channel voltage and current sensor.
 //     URL: https://github.com/RobTillaart/INA3221_RT
@@ -128,56 +128,58 @@ float INA3221::getShuntR(uint8_t channel)
 //
 //  SHUNT ALERT WARNINGS & CRITICAL
 //
-int INA3221::setCriticalAlert(uint8_t channel, uint16_t microVolt)
+int INA3221::setCriticalAlert(uint8_t channel, uint32_t microVolt)
 {
   if (channel > 2) return -1;
-  if (microVolt > 16383) return -2;
+  // Check for the full scale voltage = 163.8 mV == 163800 uV
+  if (microVolt > 163800) return -2;  
   uint16_t value = (microVolt / 40) << 3;  //  LSB 40uV  shift 3
   return _writeRegister(INA3221_CRITICAL_ALERT(channel), value);
 }
 
-uint16_t INA3221::getCriticalAlert(uint8_t channel)
+uint32_t INA3221::getCriticalAlert(uint8_t channel)
 {
   if (channel > 2) return -1;
-  uint16_t value = _readRegister(INA3221_CRITICAL_ALERT(channel));
-  return (value >> 3) * 40;
+  uint32_t value = _readRegister(INA3221_CRITICAL_ALERT(channel));
+  return (value >> 3) * 40;  //  LSB 40uV
 }
 
-int INA3221::setWarningAlert(uint8_t channel, uint16_t microVolt)
+int INA3221::setWarningAlert(uint8_t channel, uint32_t microVolt)
 {
   if (channel > 2) return -1;
-  if (microVolt > 16383) return -2;
+  // Check for the full scale voltage = 163.8 mV == 163800 uV
+  if (microVolt > 163800) return -2;  
   uint16_t value = (microVolt / 40) << 3;  //  LSB 40uV  shift 3
   return _writeRegister(INA3221_WARNING_ALERT(channel), value);
 }
 
-uint16_t INA3221::getWarningAlert(uint8_t channel)
+uint32_t INA3221::getWarningAlert(uint8_t channel)
 {
   if (channel > 2) return -1;
-  uint16_t value = _readRegister(INA3221_WARNING_ALERT(channel));
-  return (value >> 3) * 40;
+  uint32_t value = _readRegister(INA3221_WARNING_ALERT(channel));
+  return (value >> 3) * 40;  //  LSB 40uV
 }
 
 //  mA wrappers
 
-int INA3221::setCriticalCurrect(uint8_t channel, uint16_t milliAmpere)
+int INA3221::setCriticalCurrect(uint8_t channel, float milliAmpere)
 {
-  return setCriticalAlert(channel, milliAmpere * _shunt[channel]);
+  return setCriticalAlert(channel, 1000.0 * milliAmpere * _shunt[channel]);
 }
 
-uint16_t INA3221::getCriticalCurrent(uint8_t channel)
+float INA3221::getCriticalCurrent(uint8_t channel)
 {
-  return getCriticalAlert(channel) / _shunt[channel];
+  return getCriticalAlert(channel) * 0.001 / _shunt[channel];
 }
 
-int INA3221::setWarningCurrent(uint8_t channel, uint16_t milliAmpere)
+int INA3221::setWarningCurrent(uint8_t channel, float milliAmpere)
 {
-  return setWarningAlert(channel, milliAmpere * _shunt[channel]);
+  return setWarningAlert(channel, 1000.0 * milliAmpere * _shunt[channel]);
 }
 
-uint16_t INA3221::getWarningCurrent(uint8_t channel)
+float INA3221::getWarningCurrent(uint8_t channel)
 {
-  return getWarningAlert(channel) / _shunt[channel];
+  return getWarningAlert(channel) * 0.001 / _shunt[channel];
 }
 
 
