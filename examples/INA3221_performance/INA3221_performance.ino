@@ -53,6 +53,7 @@ void setup()
 void performance(uint32_t speed)
 {
   Wire.setClock(speed);
+  Serial.print("\nSpeed:\t");
   Serial.println(speed);
 
   delay(100);  // fllussssh IO

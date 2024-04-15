@@ -19,11 +19,11 @@ Arduino library for the I2C INA3221 3 channel voltage and current sensor.
 **Experimental** library for the I2C INA3221. ==> **USE WITH CARE**
 
 The INA3221 is a 3 channel measuring device to measure voltage.
-Derived from that voltage and a given shunt, the library calculates current (amperes) 
+Derived from that voltage and a given shunt, the library calculates current (amperes)
 and power (watts).
 
 The measurements runs in the background processing the two voltages per channel.
-(continuous mode assumed). When a measurement is ready the measured value is stored 
+(continuous mode assumed). When a measurement is ready the measured value is stored
 in the appropriate (channel) register. Then the next channel / voltage is measured.
 As channels can be disabled, the timing of processing / updates per channels might differ.
 
@@ -43,8 +43,8 @@ Some important maxima, see datasheet for all details.
 
 #### 0.2.0 breaking changes.
 
-Several functions have been reimplemented after issue #2.  
-This makes all pre 0.2.0 versions obsolete.
+Several functions have been reimplemented after issue #2.
+This makes pre 0.2.0 versions obsolete.
 
 
 #### Test
@@ -53,7 +53,7 @@ This makes all pre 0.2.0 versions obsolete.
 
 Only tested partially with an Arduino UNO.
 
-Not all functionality is tested and investigated with hardware. 
+Not all functionality is tested and investigated with hardware.
 
 Another point to be tested and verified is negative values in registers.
 
@@ -78,7 +78,7 @@ As always feedback is welcome, please open an issue on GitHub.
 
 #### Address
 
-The sensor can have 4 different I2C addresses, which depends on how 
+The sensor can have 4 different I2C addresses, which depends on how
 the A0 address line is connected to the SCL, SDA, GND and VCC pins.
 
 |  A0   |  DEC  |  HEX   |  Notes  |
@@ -93,13 +93,14 @@ See datasheet - table 1, page 20 - datasheet.
 
 #### Performance
 
-(From Datasheet)  
-_The INA3221 supports the transmission protocol for fast mode (1 kHz to 400 kHz) 
+(From Datasheet)
+_The INA3221 supports the transmission protocol for fast mode (1 kHz to 400 kHz)
 and high-speed mode (1 kHz to 2.94 MHz).
 All data bytes are transmitted most significant byte first._
 
 
-(timing in us, Arduino UNO), indicative by example sketch)
+(timing in us, Arduino UNO),  
+indicative by example INA3221_performance.ino  
 Four most important calls.
 
 |  Clock   |  bus V  |  shunt V  |   mA  |   mW   |
@@ -121,7 +122,7 @@ Using channels > 2 are not handled (correctly).
 
 #### Constructor
 
-- **INA3221(const uint8_t address, TwoWire \*wire = Wire)** Constructor to set 
+- **INA3221(const uint8_t address, TwoWire \*wire = Wire)** Constructor to set
 the address and optional Wire interface.
 - **bool begin()** initializes the class.
 returns true if the INA3221 address is valid and on the I2C bus.
@@ -138,7 +139,7 @@ Also the value is not meaningful if there is no shunt connected.
 The parameter **channel** should always be 0..2
 
 - **float getBusVoltage(uint8_t channel)** idem. in volts. Max 26 Volt.
-- **float getShuntVoltage(uint8_t channel)** idem, in volts. 
+- **float getShuntVoltage(uint8_t channel)** idem, in volts.
 - **float getCurrent(uint8_t channel)** is the current through the shunt in Ampere.
 - **float getPower(uint8_t channel)** is the current x BusVoltage in Watt.
 
@@ -178,21 +179,21 @@ If only one of the two is used, critical might be less than warning.
 
 The parameter **channel** should always be 0..2
 
-The parameter **microVolt** should not exceed 163800 µV, will return error -2.  
+The parameter **microVolt** should not exceed 163800 µV, will return error -2.
 NOTE: LSB = 40 uV so microVolt should be >= 40uV
 
-- **int setCriticalAlert(uint8_t channel, uint32_t microVolt)** 
+- **int setCriticalAlert(uint8_t channel, uint32_t microVolt)**
 sets the critical alert level in microvolts.
 - **uint32_t getCriticalAlert(uint8_t channel)** returns microVolt
 - **int setWarningAlert(uint8_t channel, uint32_t microVolt)**
 sets the warning alert level in microvolts.
 - **uint32_t getWarningAlert(uint8_t channel)** returns microVolt
 
-Wrappers using milliAmpere (assuming Shunt is set correctly!).  
+Wrappers using milliAmpere (assuming Shunt is set correctly!).
 These are often more intuitive from user perspective.
 NOTE: LSB = 40 uV so milliAmpere should be >= 0.4 mA (assume Shunt = 0.1 Ohm)
 
-- **int setCriticalCurrect(uint8_t channel, float milliAmpere)** 
+- **int setCriticalCurrect(uint8_t channel, float milliAmpere)**
 sets the critical alert level in milliAmpere.
 - **float getCriticalCurrent(uint8_t channel)** returns milliAmpere
 - **int setWarningCurrent(uint8_t channel, float milliAmpere)**
@@ -246,11 +247,11 @@ Note this is not the count of samples.
 
 - **int setBusVoltageConversionTime(uint8_t bvct = 4)** see table below.
 (4 = default ==> 1.1 ms), returns false if parameter > 7.
-- **int getBusVoltageConversionTime()** return the value set. 
+- **int getBusVoltageConversionTime()** return the value set.
 Note the value returned is not a unit of time.
 - **int setShuntVoltageConversionTime(uint8_t svct = 4)** see table below.
 (4 = default ==> 1.1 ms), returns false if parameter > 7.
-- **int getShuntVoltageConversionTime()** return the value set. 
+- **int getShuntVoltageConversionTime()** return the value set.
 Note the value returned is not a unit of time.
 
 
@@ -268,7 +269,7 @@ Note the value returned is not a unit of time.
 Note: times are typical, check datasheet for operational range.
 (max can be ~10% higher)
 
-Note: In combination with average the total conversion time can take up to 
+Note: In combination with average the total conversion time can take up to
 1024 x 8.3 ms almost 9 seconds (+ 10% deviation ==> 10 seconds)
 
 
@@ -310,9 +311,9 @@ Setting all bits at once with a mask is faster, atomic and uses less code.
 - **int setMaskEnable(uint16_t mask)**
 - **uint16_t getMaskEnable()**
 
-TODO: convenience wrappers 
+TODO: convenience wrappers
 - 9 x setters
-- 9 x getters  
+- 9 x getters
 
 
 #### Power Limit
