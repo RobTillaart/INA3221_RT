@@ -64,9 +64,9 @@ public:
   float    getWarningCurrent(uint8_t channel);
 
   //  SHUNT VOLTAGE SUM
-  int16_t  getShuntVoltageSum();       //  returns microVolt
-  int      setShuntVoltageSumLimit(int16_t microVolt);
-  int16_t  getShuntVoltageSumLimit();  //  returns microVolt
+  int32_t  getShuntVoltageSum();       //  returns microVolt
+  int      setShuntVoltageSumLimit(int32_t microVolt);
+  int32_t  getShuntVoltageSumLimit();  //  returns microVolt
 
   //  CONFIGURATION
   //  all fields at once. (short/fast/atomic code)

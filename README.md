@@ -32,13 +32,19 @@ They can however return the same value if no new data is available yet.
 
 Some important maxima, see datasheet for all details.
 
-|  description  |  max   |  unit  | notes |
-|:--------------|-------:|-------:|:------|
+|  description  |  max   |  unit  |  notes  |
+|:--------------|-------:|-------:|:--------|
 | channels      |  3     |        |
 | bus voltage   |  26    | Volt   |  unclear for how long.
 | shunt voltage |  163   | mVolt  |  at 0.1 Ohm
 | shunt R       |  100   | mOhm   |  typical
 | current       |  1.63  | Ampere |  I = U/R
+
+
+#### 0.2.0 breaking changes.
+
+Several functions have been reimplemented after issue #2.  
+This makes all pre 0.2.0 versions obsolete.
 
 
 #### Test
@@ -265,7 +271,7 @@ Note: In combination with average the total conversion time can take up to
 #### Operating mode
 
 (not tested)
-See datasheet
+See datasheet!
 
 Mode = 4 is not used, is also a **shutdown()** unknown if there is a difference with mode == 0.
 The underlying bit pattern (not used).
@@ -293,7 +299,7 @@ Descriptive mode functions (convenience wrappers).
 #### Mask / enable register
 
 (not tested)
-See datasheet
+See datasheet!
 
 Setting all bits at once with a mask is faster, atomic and uses less code.
 
@@ -308,9 +314,9 @@ TODO: convenience wrappers
 #### Power Limit
 
 (not tested)
-See datasheet
+See datasheet!
 
-TO guard the BUS voltage
+To guard the BUS voltage, max value 32760
 
 - **int setPowerUpperLimit(int16_t milliVolt)**
 - **int16_t getPowerUpperLimit()**
@@ -320,8 +326,10 @@ TO guard the BUS voltage
 
 #### Meta information
 
-- **uint16_t getManufacturerID()** should return 0x5449
-- **uint16_t getDieID()** should return 0x2260
+(tested)
+
+- **uint16_t getManufacturerID()** should return 0x5449, mine returns 0x5449.
+- **uint16_t getDieID()** should return 0x2260, mine returns 0x3220.
 
 
 #### Debugging

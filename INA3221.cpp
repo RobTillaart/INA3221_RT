@@ -132,7 +132,7 @@ int INA3221::setCriticalAlert(uint8_t channel, uint32_t microVolt)
 {
   if (channel > 2) return -1;
   // Check for the full scale voltage = 163.8 mV == 163800 uV
-  if (microVolt > 163800) return -2;  
+  if (microVolt > 163800) return -2;
   uint16_t value = (microVolt / 40) << 3;  //  LSB 40uV  shift 3
   return _writeRegister(INA3221_CRITICAL_ALERT(channel), value);
 }
@@ -148,7 +148,7 @@ int INA3221::setWarningAlert(uint8_t channel, uint32_t microVolt)
 {
   if (channel > 2) return -1;
   // Check for the full scale voltage = 163.8 mV == 163800 uV
-  if (microVolt > 163800) return -2;  
+  if (microVolt > 163800) return -2;
   uint16_t value = (microVolt / 40) << 3;  //  LSB 40uV  shift 3
   return _writeRegister(INA3221_WARNING_ALERT(channel), value);
 }
@@ -187,22 +187,26 @@ float INA3221::getWarningCurrent(uint8_t channel)
 //
 //  SHUNT VOLTAGE SUM
 //
-int16_t INA3221::getShuntVoltageSum()
+//  LSB 40 uV;
+//
+int32_t INA3221::getShuntVoltageSum()
 {
   int16_t value = _readRegister(INA3221_SHUNT_VOLTAGE_SUM);
-  return (value >> 1) * 40;
+  return (value >> 1) * 40L;
 }
 
-int INA3221::setShuntVoltageSumLimit(int16_t microVolt)
+int INA3221::setShuntVoltageSumLimit(int32_t microVolt)
 {
-  uint16_t value = (microVolt / 40) << 1;  //  LSB 40 uV;
+  //  15 bit signed.
+  if (abs(microVolt) > (16383L * 40L)) return -2;
+  int16_t value = (microVolt / 40) << 1;
   return _writeRegister(INA3221_SHUNT_VOLTAGE_LIMIT, value);
 }
 
-int16_t INA3221::getShuntVoltageSumLimit()
+int32_t INA3221::getShuntVoltageSumLimit()
 {
-  int16_t value = _readRegister(INA3221_SHUNT_VOLTAGE_LIMIT);
-  return (value >> 1) * 40;
+  int32_t value = _readRegister(INA3221_SHUNT_VOLTAGE_LIMIT);
+  return (value >> 1) * 40L;
 }
 
 
