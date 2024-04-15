@@ -13,7 +13,7 @@
 #include "Wire.h"
 
 
-#define INA3221_LIB_VERSION                "0.1.0"
+#define INA3221_LIB_VERSION                "0.2.0"
 
 
 class INA3221
@@ -64,7 +64,9 @@ public:
   float    getWarningCurrent(uint8_t channel);
 
   //  SHUNT VOLTAGE SUM
+  //  NOTE: LSB = 40 uV (15 bits)
   int32_t  getShuntVoltageSum();       //  returns microVolt
+  //  microVolt = max 655.320 == 16383L * 40L
   int      setShuntVoltageSumLimit(int32_t microVolt);
   int32_t  getShuntVoltageSumLimit();  //  returns microVolt
 

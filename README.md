@@ -16,7 +16,7 @@ Arduino library for the I2C INA3221 3 channel voltage and current sensor.
 
 ## Description
 
-**Experimental** library for the I2C INA3221. 
+**Experimental** library for the I2C INA3221. ==> **USE WITH CARE**
 
 The INA3221 is a 3 channel measuring device to measure voltage.
 Derived from that voltage and a given shunt, the library calculates current (amperes) 
@@ -49,13 +49,17 @@ This makes all pre 0.2.0 versions obsolete.
 
 #### Test
 
+==> **USE WITH CARE**
+
 Only tested partially with an Arduino UNO.
 
-Not all functionality is tested and investigated. ==> **USE WITH CARE**
+Not all functionality is tested and investigated with hardware. 
+
+Another point to be tested and verified is negative values in registers.
 
 Read datasheet for details.
 
-As always feedback is welcome, please open an issue on Github.
+As always feedback is welcome, please open an issue on GitHub.
 
 
 #### Special characters
@@ -346,7 +350,7 @@ To guard the BUS voltage, max value 32760
 - update documentation.
   - return values
 - test all functionality
-  - negative values (two complements)
+  - negative values = two complements - does it work?
 
 
 #### Should
