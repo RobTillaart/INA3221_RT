@@ -338,19 +338,21 @@ TO guard the BUS voltage
 - update documentation.
   - return values
 - test all functionality
+  - negative values (two complements)
 
 
 #### Should
 
-- TODO's in code.
-- convenience wrappers MASK/ENABLE register.
 - keep in sync with INA219/226 where possible.
 
 
 #### Could
 
+- convenience wrappers MASK/ENABLE register.
+  - 9 x getters  9 x setters (quite a lot)
 - error handling / documentation
 - clean up magic numbers in the code (e.g. 40 uV and 8 mV)
+  - comments?
 
 
 #### Won't

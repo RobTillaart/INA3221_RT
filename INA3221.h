@@ -49,7 +49,8 @@ public:
   float    getShuntR(uint8_t channel);
 
   //  SHUNT ALERT WARNINGS & CRITICAL
-  //  NOTE: LSB = 40 uV so microVolt should be >= 40uV
+  //  NOTE: full scale voltage == 163.8 mV == 163800 uV
+  //  NOTE: LSB == 40 uV so microVolt should be >= 40uV
   int      setCriticalAlert(uint8_t channel, uint32_t microVolt);
   uint32_t getCriticalAlert(uint8_t channel);  //  returns microVolt
   int      setWarningAlert(uint8_t channel, uint32_t microVolt);
@@ -97,9 +98,10 @@ public:
   //  all fields at once. (short/fast/atomic code)
   int      setMaskEnable(uint16_t mask);
   uint16_t getMaskEnable();
-  //  TODO  convenience wrappers  9 x getters  9 x setters
+  //  convenience wrappers for MASK/ENABLE?
 
   //  POWER LIMIT (guards BUS voltage)
+  //  max = 4095 * 8 mV = 32760 mV
   int     setPowerUpperLimit(int16_t milliVolt);
   int16_t getPowerUpperLimit();
   int     setPowerLowerLimit(int16_t milliVolt);
