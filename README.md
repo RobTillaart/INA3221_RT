@@ -41,6 +41,11 @@ Some important maxima, see datasheet for all details.
 | current       |  1.63  | Ampere |  I = U/R
 
 
+#### 0.3.0 breaking changes.
+
+Renamed setCriticalCurrect() ==> setCriticalCurrent() to fix typo.
+
+
 #### 0.2.0 breaking changes.
 
 Several functions have been reimplemented after issue #2.
