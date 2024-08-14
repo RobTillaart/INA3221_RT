@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.3.0] - 2024-08-14
 - Fix #6 setCriticalCurrent()
 - add array example
+- update keywords.txt
+- update readme.md
 
 ----
 
