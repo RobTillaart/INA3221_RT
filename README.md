@@ -72,6 +72,9 @@ As always feedback is welcome, please open an issue on GitHub.
 
 - https://github.com/RobTillaart/INA219
 - https://github.com/RobTillaart/INA226
+- https://github.com/RobTillaart/INA228
+- https://github.com/RobTillaart/INA3221_RT
+
 
 
 ## I2C
@@ -120,7 +123,7 @@ Four most important calls.
 All parameters channels are zero based => so numbered 0 , 1 or 2.
 Using channels > 2 are not handled (correctly).
 
-#### Constructor
+### Constructor
 
 - **INA3221(const uint8_t address, TwoWire \*wire = Wire)** Constructor to set
 the address and optional Wire interface.
@@ -131,7 +134,7 @@ Note: one needs to set **Wire.begin()** before calling **begin()**.
 - **uint8_t getAddress()** returns the address set in the constructor.
 
 
-#### Core Functions
+### Core Functions
 
 Note the power and the current are not meaningful without calibrating the sensor.
 Also the value is not meaningful if there is no shunt connected.
@@ -160,7 +163,7 @@ Wrapper functions for the micro scale.
 - **float getPower_uW(uint8_t channel)** idem, in microWatt.
 
 
-#### Shunt Resistor
+### Shunt Resistor
 
 The shunt resistor is typical in the order of 0.100 Ohm.
 
@@ -168,7 +171,7 @@ The shunt resistor is typical in the order of 0.100 Ohm.
 - **float getShuntR(uint8_t channel)** returns value in Ohm.
 
 
-#### Shunt Alerts, warning and critical
+### Shunt Alerts, warning and critical
 
 (not tested)
 Read datasheet!
@@ -193,7 +196,7 @@ Wrappers using milliAmpere (assuming Shunt is set correctly!).
 These are often more intuitive from user perspective.
 NOTE: LSB = 40 uV so milliAmpere should be >= 0.4 mA (assume Shunt = 0.1 Ohm)
 
-- **int setCriticalCurrect(uint8_t channel, float milliAmpere)**
+- **int setCriticalCurrent(uint8_t channel, float milliAmpere)**
 sets the critical alert level in milliAmpere.
 - **float getCriticalCurrent(uint8_t channel)** returns milliAmpere
 - **int setWarningCurrent(uint8_t channel, float milliAmpere)**
@@ -201,7 +204,7 @@ sets the warning alert level in milliAmpere.
 - **float getWarningCurrent(uint8_t channel)** returns milliAmpere
 
 
-#### Shunt voltage sum
+### Shunt voltage sum
 
 (not tested)
 Read datasheet!
@@ -211,7 +214,7 @@ Read datasheet!
 - **int16_t getShuntVoltageSumLimit()** returns set value in microVolt.
 
 
-#### Configuration
+### Configuration
 
 (partially tested)
 Read datasheet for bit pattern of the mask.
@@ -273,7 +276,7 @@ Note: In combination with average the total conversion time can take up to
 1024 x 8.3 ms almost 9 seconds (+ 10% deviation ==> 10 seconds)
 
 
-#### Operating mode
+### Operating mode
 
 (not tested)
 See datasheet!
@@ -301,7 +304,7 @@ Descriptive mode functions (convenience wrappers).
 - **int setModeShuntBusContinuous()** mode 7 - default - (only one tested)
 
 
-#### Mask / enable register
+### Mask / enable register
 
 (not tested)
 See datasheet!
@@ -316,7 +319,7 @@ TODO: convenience wrappers
 - 9 x getters
 
 
-#### Power Limit
+### Power Limit
 
 (not tested)
 See datasheet!
@@ -329,7 +332,7 @@ To guard the BUS voltage, max value 32760
 - **int16_t getPowerLowerLimit()**
 
 
-#### Meta information
+### Meta information
 
 (tested)
 
@@ -337,7 +340,7 @@ To guard the BUS voltage, max value 32760
 - **uint16_t getDieID()** should return 0x2260, mine returns 0x3220.
 
 
-#### Debugging
+### Debugging
 
 - **uint16_t getRegister(uint8_t reg)** fetch registers directly, for debugging only.
 - **uint16_t putRegister(uint8_t reg, uint16_t value)** load registers directly, for debugging only.
