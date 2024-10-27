@@ -36,11 +36,17 @@ Some important maxima, see datasheet for all details.
 
 |  description  |  max   |  unit  |  notes  |
 |:--------------|-------:|-------:|:--------|
-| channels      |  3     |        |
-| bus voltage   |  26    | Volt   |  unclear for how long.
-| shunt voltage |  163   | mVolt  |  at 0.1 Ohm
-| shunt R       |  100   | mOhm   |  typical
+| channels      |     3  |        |
+| bus voltage   |    26  |   Volt |  unclear for how long.
+| shunt voltage |   163  |  mVolt |  at 0.1 Ohm
+| shunt R       |   100  |   mOhm |  typical
 | current       |  1.63  | Ampere |  I = U/R
+
+
+
+### 0.4.0 breaking changes.
+
+Fix #8, configuration functions were not working.
 
 
 ### 0.3.0 breaking changes.
