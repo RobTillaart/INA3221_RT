@@ -16,7 +16,9 @@ Arduino library for the I2C INA3221 3 channel voltage and current sensor.
 
 ## Description
 
-**Experimental** library for the I2C INA3221. ==> **USE WITH CARE**
+**Experimental** **USE WITH CARE**
+
+The INA3221 is a 3 channel voltage and current sensor, which work with I2C.
 
 The INA3221 is a 3 channel measuring device to measure voltage.
 Derived from that voltage and a given shunt, the library calculates current (amperes)
@@ -41,18 +43,18 @@ Some important maxima, see datasheet for all details.
 | current       |  1.63  | Ampere |  I = U/R
 
 
-#### 0.3.0 breaking changes.
+### 0.3.0 breaking changes.
 
 Renamed setCriticalCurrect() ==> setCriticalCurrent() to fix typo.
 
 
-#### 0.2.0 breaking changes.
+### 0.2.0 breaking changes.
 
 Several functions have been reimplemented after issue #2.
 This makes pre 0.2.0 versions obsolete.
 
 
-#### Test
+### Test
 
 ==> **USE WITH CARE**
 
@@ -67,13 +69,13 @@ Read datasheet for details.
 As always feedback is welcome, please open an issue on GitHub.
 
 
-#### Special characters
+### Special characters
 
 - Ω == Ohm = ALT-234 (Windows)
 - µ == micro = ALT-0181 (Windows)
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/INA219
 - https://github.com/RobTillaart/INA226
@@ -84,7 +86,7 @@ As always feedback is welcome, please open an issue on GitHub.
 
 ## I2C
 
-#### Address
+### Address
 
 The sensor can have 4 different I2C addresses, which depends on how
 the A0 address line is connected to the SCL, SDA, GND and VCC pins.
@@ -99,7 +101,7 @@ the A0 address line is connected to the SCL, SDA, GND and VCC pins.
 See datasheet - table 1, page 20 - datasheet.
 
 
-#### Performance
+### Performance
 
 (From Datasheet)
 _The INA3221 supports the transmission protocol for fast mode (1 kHz to 400 kHz)
@@ -367,6 +369,7 @@ To guard the BUS voltage, max value 32760
 - **uint16_t getDieID()** should return 0x2260, mine returns 0x3220.
 
 If your device returns other ManufacturerID or DieID, please let me know.
+
 
 ### Debugging
 
