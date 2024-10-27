@@ -235,9 +235,12 @@ The library also provides getters and setters per field.
 - **int enableChannel(uint8_t channel)** add a channel to the background measurements loop.
 - **int disableChannel(uint8_t channel)** remove a channel to the background measurements loop.
 - **int getEnableChannel(uint8_t channel)** check if a channel is enabled.
-- **int setAverage(uint8_t avg = 0)** see table below.
-(0 = default ==> 1 read), returns false if parameter > 7.
-- **int getAverage()** returns the value set. See table below.
+- **int setAverage(uint16_t avg = 0)** see table below.
+(0 = default ==> 1 read)
+  - return 0 is OK.
+  - return -10 if parameter > 7.
+  - other is I2C error.
+- **uint16_t getAverage()** returns the value set. See table below.
 Note this is not the count of samples.
 
 
@@ -252,14 +255,23 @@ Note this is not the count of samples.
 |    6    |    512    |         |
 |    7    |   1024    |         |
 
+Note that averaging a lot of samples increases the duration.
+Furthermore fast changing fluctuations might be averaged out.
 
-- **int setBusVoltageConversionTime(uint8_t bvct = 4)** see table below.
-(4 = default ==> 1.1 ms), returns false if parameter > 7.
-- **int getBusVoltageConversionTime()** return the value set.
-Note the value returned is not a unit of time.
-- **int setShuntVoltageConversionTime(uint8_t svct = 4)** see table below.
-(4 = default ==> 1.1 ms), returns false if parameter > 7.
-- **int getShuntVoltageConversionTime()** return the value set.
+
+- **int setBusVoltageConversionTime(uint16_t bvct = 4)** see table below.
+(4 = default ==> 1.1 ms), 
+  - return 0 is OK.
+  - return -10 if parameter > 7.
+  - other is I2C error.
+- **uint16_t getBusVoltageConversionTime()** return the value set 0..7.
+See table below. Note the value returned is not a unit of time.
+- **int setShuntVoltageConversionTime(uint16_t svct = 4)** see table below.
+(4 = default ==> 1.1 ms), 
+  - return 0 is OK.
+  - return -10 if parameter > 7.
+  - other is I2C error.
+- **uint16_t getShuntVoltageConversionTime()** return the value set 0..7.
 Note the value returned is not a unit of time.
 
 
@@ -275,7 +287,7 @@ Note the value returned is not a unit of time.
 |    7      |  8.3 ms   |
 
 Note: times are typical, check datasheet for operational range.
-(max can be ~10% higher)
+The maxima can be up to ~10% higher!
 
 Note: In combination with average the total conversion time can take up to
 1024 x 8.3 ms almost 9 seconds (+ 10% deviation ==> 10 seconds)
@@ -295,10 +307,14 @@ The underlying bit pattern (not used).
 |   1   |   0x02  |  bus bit on (0x02) / off (0x00)
 |   2   |   0x04  |  continuous (0x04) / one shot (0x00) bit.
 
-- **int setMode(uint8_t mode = 7)** mode = 0..7. Default = 7 ==> ShuntBusContinuous mode.
-- **int getMode()** returns the mode (0..7).
+- **int setMode(uint16_t mode = 7)** mode = 0..7. Default = 7 ==> ShuntBusContinuous mode.
+  - return 0 is OK.
+  - return -10 if parameter > 7.
+  - other is I2C error.
+- **uint16_t getMode()** returns the mode (0..7).
 
 Descriptive mode functions (convenience wrappers).
+These have the same return value as **setMode()**.
 
 - **int shutDown()** mode 0
 - **int setModeShuntTrigger()** mode 1
@@ -317,9 +333,11 @@ See datasheet!
 Setting all bits at once with a mask is faster, atomic and uses less code.
 
 - **int setMaskEnable(uint16_t mask)**
+  - return 0 is OK.
+  - other is I2C error.
 - **uint16_t getMaskEnable()**
 
-TODO: convenience wrappers
+TODO: convenience wrappers (?)
 - 9 x setters
 - 9 x getters
 
@@ -332,9 +350,13 @@ See datasheet!
 To guard the BUS voltage, max value 32760
 
 - **int setPowerUpperLimit(int16_t milliVolt)**
-- **int16_t getPowerUpperLimit()**
+  - return 0 is OK.
+  - other is I2C error.
+- **int16_t getPowerUpperLimit()** returns limit in mV.
 - **int setPowerLowerLimit(int16_t milliVolt)**
-- **int16_t getPowerLowerLimit()**
+  - return 0 is OK.
+  - other is I2C error.
+- **int16_t getPowerLowerLimit()** returns limit in mV.
 
 
 ### Meta information
@@ -344,6 +366,7 @@ To guard the BUS voltage, max value 32760
 - **uint16_t getManufacturerID()** should return 0x5449, mine returns 0x5449.
 - **uint16_t getDieID()** should return 0x2260, mine returns 0x3220.
 
+If your device returns other ManufacturerID or DieID, please let me know.
 
 ### Debugging
 

@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.4.0] - 2024-10-27
+- fix #8, config functions, kudos to joachymus
+- update readme.md
+
+----
+
 ## [0.3.0] - 2024-08-14
 - Fix #6 setCriticalCurrent()
 - add array example
