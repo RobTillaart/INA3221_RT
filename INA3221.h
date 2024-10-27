@@ -88,11 +88,12 @@ public:
   uint16_t getShuntVoltageConversionTime();
   //  operating mode
   int      setMode(uint16_t mode = 7);  //  default 7 == ModeShuntBusContinuous
-  int      getMode();
+  uint16_t getMode();
   int      shutDown()                  { return setMode(0); };
   int      setModeShuntTrigger()       { return setMode(1); };
   int      setModeBusTrigger()         { return setMode(2); };
   int      setModeShuntBusTrigger()    { return setMode(3); };
+  //  setMode(4) equals setMode(0)...
   int      setModeShuntContinuous()    { return setMode(5); };
   int      setModeBusContinuous()      { return setMode(6); };
   int      setModeShuntBusContinuous() { return setMode(7); };  //  default.
