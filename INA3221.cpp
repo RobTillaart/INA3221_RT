@@ -198,7 +198,7 @@ int32_t INA3221::getShuntVoltageSum()
 int INA3221::setShuntVoltageSumLimit(int32_t microVolt)
 {
   //  15 bit signed.
-  if (abs(microVolt) > (16383L * 40L)) return -2;
+  if (abs(microVolt) > (16383L * 40L)) return -10;
   int16_t value = (microVolt / 40) << 1;
   return _writeRegister(INA3221_SHUNT_VOLTAGE_LIMIT, value);
 }
