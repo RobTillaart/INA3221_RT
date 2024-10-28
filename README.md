@@ -259,6 +259,28 @@ The library also provides getters and setters per field.
 - **int enableChannel(uint8_t channel)** add a channel to the background measurements loop.
 - **int disableChannel(uint8_t channel)** remove a channel to the background measurements loop.
 - **int getEnableChannel(uint8_t channel)** check if a channel is enabled.
+
+
+### Average
+
+Datasheet, section 8.4.1
+
+The average does not make multiple measurements and then return the average, 
+one should think of it as a low pass filter that reduces noise.
+
+in code:
+```cpp
+value = value + (measurement - value) * (1/samples);
+
+e.g. (1/samples) == (1/128) 
+```
+
+The higher the average number of samples the less noise you have. 
+Higher values for average cause the measurements take more time to stabilize.
+Therefor it reacts slower on changes in voltage and current. 
+So choose the level of averaging with care.
+
+
 - **int setAverage(uint16_t avg = 0)** see table below.
 (avg 0 = default ==> 1 read)
   - return 0 is OK.
@@ -279,9 +301,8 @@ Note this is not the count of samples.
 |    6    |     512   |         |
 |    7    |    1024   |         |
 
-Note that averaging a lot of samples increases the duration.
-Furthermore fast changing fluctuations might be averaged out.
 
+### Conversion time
 
 - **int setBusVoltageConversionTime(uint16_t bvct = 4)** see table below.
 (4 = default ==> 1.1 ms), 
@@ -312,9 +333,6 @@ Note the value returned is not a unit of time.
 
 Note: times are typical, check datasheet for operational range.
 The maximum time can be up to ~10% higher than typical!
-
-Note: In combination with average the total conversion time can take up to
-1024 x 8.3 ms almost 9 seconds (+ 10% deviation ==> 10 seconds)
 
 
 ### Operating mode
