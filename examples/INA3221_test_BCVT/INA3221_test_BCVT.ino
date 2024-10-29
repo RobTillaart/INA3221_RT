@@ -39,6 +39,8 @@ void setup()
   //  overwrite default shunts.
   INA.setShuntR(0, 0.100);
   INA.enableChannel(0);
+  delay(100);  // fllussssh IO
+
 
   //  should give roughly same timing
   //  see section 8.4.1 datasheet.
