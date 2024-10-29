@@ -25,7 +25,7 @@ void setup()
   if (!INA.begin() )
   {
     Serial.println("could not connect. Fix and Reboot");
-    while(1);
+    while (1);
   }
   else
   {
@@ -33,17 +33,18 @@ void setup()
     Serial.println(INA.getAddress());
   }
 
+  Serial.print("CFG:\t");
+  Serial.println(INA.getConfiguration(), HEX);  //  should be 0x7127
+
   //  overwrite default shunts.
   INA.setShuntR(0, 0.100);
-
-
-  delay(100);  // fllussssh IO
+  INA.enableChannel(0);
 
   //  should give roughly same timing
   //  see section 8.4.1 datasheet.
   for (int bcvt = 0; bcvt < 8; bcvt++)
   {
-    INA.setBusVoltageConversionTime(bcvt);
+    Serial.println(INA.setBusVoltageConversionTime(bcvt));
     Serial.print("BVCT:\t");
     Serial.println(INA.getBusVoltageConversionTime());
     delay(100);
